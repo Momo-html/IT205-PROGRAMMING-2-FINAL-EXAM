@@ -1,0 +1,161 @@
+using System;
+using System.Diagnostics; // Add this line to include the Stopwatch class
+
+internal class Program
+{
+class SolvingMysteries
+{
+static void Main(string[] args)
+{
+int score = 0;
+int actionsleft = 8;
+string thief = "Eunice";
+bool caseSolved = false;
+
+        // Timer
+        Stopwatch timer = new Stopwatch();
+        TimeSpan timeLimit = TimeSpan.FromMinutes(5); // number of minutes
+        timer.Start();
+
+        // Suspects and their alibis (palusots)
+        string[] suspects = { "Kenneth", "Zy", "Eunice", "Aldwin" };
+        string[] palusots = {
+            "I was in the garden playing with my dogs. I didn't see anything sus tho.",
+            "I was in the kitchen getting a glass of water. Ask Kenneth, he saw me there.",
+            "I was also at the garden watering the plants. The necklace is not my concern.",
+            "I was outside fixing my car. I didn't even enter the house that day."
+        };
+
+        // Clues
+        string[] clues = {
+            "There was a muddy footprint left near the safe where the necklace was kept.",
+            "The safe was unlocked using a key.",
+            "A pair of gardening gloves were found at the table beside the safe.",
+            "The only person who has the key to the safe is Donya Rosalia's niece.",
+            "Traces of soil were found on the handle of the safe."
+        };
+        int clueIndex = 0;
+
+        // Game introduction
+        Console.WriteLine("Welcome to Solving Mysteries: THE STOLEN NECKLACE!");
+        Console.WriteLine();
+        Console.WriteLine("A necklace has been stolen from the mansion of Donya Rosalia. Gather evidence and solve the case!");
+        Console.WriteLine();
+        Console.WriteLine("There are 4 people present at the crime scene");
+        Console.WriteLine();
+        Console.WriteLine("EUNICE");
+        Console.WriteLine ("   ..:+*####*=======+++*#####*=:........\n  .:=*##%%#+=-----=====+**####*=-:......\n .-=*##%%#+=--=========++**####*+=:.....\n.:=+*#%%#+=--==========+++**#%##*+=:....\n:-=+#%%%*==-=-=========+++**#%##**++....\n:=+*%%%#+=--============+++*#%%##*+*=.  \n:=+#%%@#++****++===++*******#%%%#****=. \n--*#%%%*==++***+=++*+++++++**##%%#****-.\n:-***##++++****+=++++++##*#*****#%#***+:\n.-*%***==+++*+++++*+++++++++++*#%%%###*+\n :*%%*+--=====++==*+=========+*#%%%###**\n.=*#%%+-----=++--=+**+=---==++*#%%%%###*\n=+#%%%#--==+*-=-=++=+*+=====++*#%%%%%##*\n+#%%%%%+--=+==++++**++======++*%@%%%%%%#\n#%%%%%%%=====-==++++=======++*#@@%%%%%%#\n#%%%%%%@#+=+***********++=++*#@@%%%%%%%#\n%%%%%%@@@#++=+++++****++++**#@@%%%%%%%%#\n%%%%%%%%%@%*+=++++++++++***%@@%%%%%%%%#%\n%%%%%%%%%%@%*=======+++*##%@%%%%%%%%%%%#\n%%%%%%%%@%@@@%*+++++***###%%%%@%%%%%%%%#\n%%%%%%%%@@@@@@%#*********#%%%%@%%%%%%%%%\n%%%%%%@%@@@@@@%%**+++***###%%%@@%%%%%%%%\n%%%%%%@@@@@@@@%%#*+++*****#%@%%@%%%%%%%%\n%%%%%@@@@@@@@@%%*+++++++**#%@%%%@%%%%%%%\n%%%%%@@@@@@@@%%#++===+==++#%@@%%%@%%%%%%\n%%%%%@@@%@@%####+====+==+*@@@@@@%@@%%%%%");
+
+        Console.WriteLine();
+        Console.WriteLine("KENNETH");
+        Console.WriteLine("+++++++++++++++++++++++*+++++++++++++++=\n+++++++++++++====+++++++=++++++++++++++=\n-===========-=-=--:===++=++++++++++++++=\n::::---::::--------------------------===\n::::::::::::::::::::::::----------------\n:::::::::::::::-=++**=-::::-------------\n:::::::::::::-#%%%%@@@#+=:::-:----------\n:::::::::::::*@%#####%@@%=::-::---------\n:::::::......*%*++++++*%%-::::::--------\n.............:#**=+++==*=::::::::-------\n.............:***+++===+-::::::::-------\n..............-*#*+++==+-:::::::::------\n.............:-==+++++*+++=--::::------:\n..........:==+*+*##**#*+==++==--=+*+++-:\n.......::=**#***#*+*#*+++=++===-=#@%#%=-\n#+::==-::**%##**#*##*+++++++====--+@*@**\n@#::*%%#*#####*###**+*++==++=====--%@#%%\n%#--#@%##%#*##*####++*====+++=====-#@*@@\n%%%%%@##***#*+*%+****+====+*++==+=-*@%@@\n%@@%#######%*+**++*++++=+++**+==+=-+##%%\n@@@%%##%%%%@*##==+=++=+++=+**+=++=-+####\n@@@@@@%%@@@@*#*-++==++===+++#*+++==*####\n%%%@@@@@@@@@**+++++===+++==+*##*++*#####\n**#@@@@@@@@@****++++=====++++##*+++#####\n****%@@@@@@%#****++++=====++*##*+++%%%##\n*************#*****+++++++++*##*++*@@@%%");
+        Console.WriteLine();
+        Console.WriteLine("ALDWIN");
+        Console.WriteLine ("........:===***#%##%%@%%@@#%#*=-===--===\n.... .. .==+##%%%#*****##%%####*:--==-==\n ........==#%%%#=--:-===+##%%%##*::-==+=\n.........-+%%%%+------===*#%%%%%%*..:-==\n........ :*%%%#+=-=----===#+#%%%%%=..:::\n..---:::..+%%%*+======+===++*#%%%%*..=+=\n..:.......-#%#*++=++*####*+*#%%%%%=..-++\n..::-::-..:**%#=++++******++####*=-==-++\n...:::....:*+**=+++++**++*==*+*++::=::++\n...:---::::+++===+++++++==--=++++--=.:++\n...........-++*==++++++=+++++++++::..:+#\n............+%@+=+++++==+****+++=...::+%\n...........-*%@#=+===++******#++:.::::*%\n:::::::::=*##%%%+++==+++*+++***:..:::-#%\n:::::::::#%%%%%%++++=++++***++-.:::::+%%\n:::::::::#%%#**#++***+++****+-..::::-#%@\n:::::::::++-:=+#*+********+...::::::+%%@\n::::::::    ..-+#%********=:   .:::=%%@@\n::::::.   . ....:+%#*****=:==.  .:=#%%%@\n:-::      .. .....-##:::::..+.....*%%%%%\n-:   .  .  :........+#::....=.....=%%%@@\n.   ........::::..:..*+.....-:....:@@@@@\n   ..........:........%=....--.:...#@@@@\n  .....::::..::.......-%::-.--..:..-@@@@\n .....::::-:..:......:.+*-=::-.:::..%@@@\n::::::::::::-.........::#-::-*==:=..#@@@\n::::::----:.:-.::.:::.:-:#==++++-=:.:@@@\n:----::.::---::.:::::::=-**+*+-+---:-%@%");
+        Console.WriteLine();
+        Console.WriteLine("ZY");
+        Console.WriteLine ("----------=++*####**+=------------------\n----:::-+*%###%%%%#####*=---------------\n------*%%%%#**######*####*--:-----------\n-----=#%%%%##***#####%%%%#*-:-----------\n-----+%%%%%#*+++**##%%%%%%#=::::--------\n-----#%%%##*++++++**#%%%%%#*::::::::----\n----=#%%%#*+++++++++**#%%%#*=:::::::::::\n----=*%%#*++++++++++++*#%%#*+:::::::::::\n-====+%#**++++++++++++**#%##*:::::::::::\n=====*%#*****##***+++*#*****#=::::::::::\n====+###*****##***+=*#**++==+=::::::::::\n===++*+#*+===++++*=-=+++=--=-:::::------\n====+#%#*+=====+++=--=+====************+\n%%%%@%%@%+++++++++++==+*+=++============\n%%%%%%%@@%*++****+++++++==+=============\n*+***%@@@@@#**+*****+==*#*==============\n:-++*%@@@@@%%#*+++++=+%%%*-::===========\n---+*%%%%%@*###****#%%@%%#+--:..:-======\n::-=%%%%%%%#=*#***##%%%%%#+:::.....:-===\n:::=#%%%%%%%*-+****##%%%%#+-::::::::...:\n:::-*%%%%%%##=--****#%##%#=::---:-:-::..\n::::=##%%%%%#*::-**##%###*-.=++===----::\n:::::+*#%#%###---=*####*+=::=*#**#*+=--:\n:::::-=+####**---==*#*+=::.-=##====+#+-:\n::::-:--=****===-::-=--::::-+##====*+===\n:----:::--===::--::::--:::.:+%*====#===-");
+        Console.WriteLine();
+        Console.WriteLine("You have 8 actions and 5 minutes to solve the case. Fighting and Goodluck!\n");
+
+        // Game loop
+        while (actionsleft > 0 && !caseSolved)
+        {
+            // Checking the timer
+            if (timer.Elapsed >= timeLimit)
+            {
+                Console.WriteLine("\nTIME'S UP! You failed to solve the case");
+                break;
+            }
+
+            // Remaining Time and actions
+            TimeSpan remainingTime = timeLimit - timer.Elapsed;
+            Console.WriteLine($"Time remaining: {remainingTime.Minutes}:{remainingTime.Seconds:D2}");
+            Console.WriteLine($"Actions left: {actionsleft}, Score: {score}\n");
+
+            // Choices
+            Console.WriteLine("Detective, what would you like to do?");
+            Console.WriteLine("1. Interrogate the suspects");
+            Console.WriteLine("2. Search for clues");
+            Console.WriteLine("3. Accuse the suspect");
+             Console.Write("Your Move? (1-3): ");
+            string choice = Console.ReadLine();
+            
+
+            switch (choice)
+            {
+                case "1":
+                    // Interrogation of suspects
+                    Console.Write("\nWho do you want to interogate? \n(Kenneth, Zy, Eunice or Aldwin) \nWho? :");
+                    string suspect = Console.ReadLine();
+                    int suspectIndex = Array.IndexOf(suspects, suspect);
+                    if (suspectIndex != -1)
+                    {
+                        Console.WriteLine($"\n{suspect} says: \"{palusots[suspectIndex]}\"");
+                        actionsleft--;
+                    }
+                    else
+                    {
+                        Console.WriteLine("That person is not a suspect.");
+                    }
+                    break;
+
+                case "2":
+                    // Searching for clues
+                    if (clueIndex < clues.Length)
+                    {
+                        Console.WriteLine($"\nYou found a clue: {clues[clueIndex]}");
+                        clueIndex++;
+                        score += 20; // Points for finding clues
+                    }
+                    else
+                    {
+                        Console.WriteLine("\nYou have found all the clues.");
+                    }
+                    actionsleft--;
+                    break;
+
+                case "3":
+                    // Accuse the suspect
+                    if (score < 50) // Total points must be more than 50
+                    {
+                        Console.WriteLine("\nYou don't have enough evidence to accuse someone! Gather more clues first.");
+                    }
+                    else
+                    {
+                        Console.Write("\nWho do you think the thief is? \n(Kenneth, Zy, Eunice or Aldwin) \nWho? :");
+                        string accusation = Console.ReadLine();
+                        if (accusation == thief)
+                        {
+                            Console.WriteLine("\nCONGRATULATIONS! You solved the case!");
+                            Console.WriteLine($"{accusation} is the thief!");
+                            score += 50;
+                            caseSolved = true;
+                        }
+                        else
+                        {
+                            Console.WriteLine("\nYou made the wrong accusation! -10 points");
+                            score -= 10;
+                            actionsleft--;
+                        }
+                    }
+                    break;
+
+                default:
+                    Console.WriteLine("\nInvalid choice. Try again.");
+                    break;
+            }
+        }
+
+        // End of Game
+        if (!caseSolved && timer.Elapsed < timeLimit)
+        {
+            Console.WriteLine("\nYou ran out of actions! The case remains unsolved.");
+        }
+
+        timer.Stop();
+        Console.WriteLine($"\nGAME OVER! Your final score: {score}");
+        Console.WriteLine($"Time Taken: {timer.Elapsed.Minutes} minutes and {timer.Elapsed.Seconds} seconds.");
+    }
+}
+}
